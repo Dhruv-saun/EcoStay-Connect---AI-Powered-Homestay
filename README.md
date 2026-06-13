@@ -79,7 +79,28 @@ Booking UI for selected stay.
 ### Dashboard
 Displays future booking information.
 ---
-# 📸 Screenshots
+## 📸 Screenshots
+
+### Homepage
+
+![Homepage](./screenshots/homepage.png)
+
+### Login Page
+
+![Login](./screenshots/login-page.png)
+
+### Homestays
+
+![Homestays](./screenshots/homestays-page.png)
+
+### Dashboard
+
+![Dashboard](./screenshots/dashboard-page.png)
+
+### Week 1 Progress
+
+![Week 1 Progress](./screenshots/week-1-progress.png)
+
 Add screenshots inside:
 ```plaintext
 screenshots/
