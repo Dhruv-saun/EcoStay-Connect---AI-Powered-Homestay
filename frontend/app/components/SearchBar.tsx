@@ -27,7 +27,7 @@ export default function SearchBar() {
           rounded-lg
           "
         >
-          Search
+        Coming Soon
         </button>
       </div>
     </section>

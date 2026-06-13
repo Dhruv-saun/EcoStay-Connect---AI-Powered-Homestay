@@ -1,3 +1,4 @@
+import Link from "next/link";
 export default function Hero() {
   return (
     <section
@@ -19,7 +20,8 @@ export default function Hero() {
         explore eco-tourism powered by AI
       </p>
       <div className="mt-10 flex gap-6">
-        <button
+        <Link
+          href="/homestays"
           className="
           bg-green-700
           text-white
@@ -29,8 +31,9 @@ export default function Hero() {
           "
         >
           Explore Stays
-        </button>
-        <button
+        </Link>
+        <Link
+          href="/register"
           className="
           border
           px-8
@@ -39,7 +42,7 @@ export default function Hero() {
           "
         >
           Become Host
-        </button>
+        </Link>
       </div>
     </section>
   );
