@@ -16,7 +16,7 @@ export default function Navbar() {
       >
         EcoStay Connect
       </Link>
-      <div className="flex gap-8">
+      <div className="flex gap-8 items-center">
         <Link href="/">
           Home
         </Link>
