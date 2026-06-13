@@ -1,3 +1,4 @@
+import Link from "next/link";
 const stays = [
   {
     id: 1,
@@ -56,18 +57,22 @@ export default function Homestays() {
 
                 {stay.price}
               </p>
-              <button
-                className="
-                mt-6
-                bg-green-700
-                text-white
-                px-5
-                py-2
-                rounded-lg
-                "
-              >
-                Book Stay
-              </button>
+                <Link
+                  href="/booking"
+                  className="
+                  mt-6
+                  bg-green-700
+                  text-white
+                  px-5
+                  py-2
+                  rounded-lg
+                  inline-block
+                  "
+                  >
+
+                  Book Stay
+
+                </Link>
             </div>
           </div>
         ))}
