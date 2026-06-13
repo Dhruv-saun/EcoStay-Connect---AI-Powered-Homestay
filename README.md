@@ -150,6 +150,10 @@ http://localhost:3000
 - Supabase Integration
 - Authentication APIs
 ---
+## Upcoming Features
+
+- FastAPI backend
+- Supabase integration
 # 👨‍💻 Developed By
 Dhruv Saun
 Internship Project – 2026
