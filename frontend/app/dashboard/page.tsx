@@ -1,3 +1,12 @@
-export default function Login() {
-  return <h1>Login Page</h1>;
+export default function Dashboard() {
+  return (
+    <main className="p-10">
+      <h1 className="text-5xl font-bold">
+        Dashboard
+      </h1>
+      <p className="mt-4">
+        Your bookings will appear here.
+      </p>
+    </main>
+  );
 }

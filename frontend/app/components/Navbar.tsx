@@ -14,6 +14,9 @@ export default function Navbar() {
         href="/"
         className="text-2xl font-bold text-green-700"
       >
+        <Link href="/dashboard">
+          Dashboard
+          </Link>
         EcoStay Connect
       </Link>
       <div className="flex gap-8">
