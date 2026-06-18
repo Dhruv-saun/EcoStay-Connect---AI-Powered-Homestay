@@ -1,6 +1,11 @@
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 export default function Booking() {
   return (
-    <main
+    <>
+      <Navbar />
+
+      <main
       className="
       min-h-screen
       flex
@@ -62,5 +67,8 @@ export default function Booking() {
         </button>
       </div>
     </main>
+
+    <Footer />
+    </>
   );
 }

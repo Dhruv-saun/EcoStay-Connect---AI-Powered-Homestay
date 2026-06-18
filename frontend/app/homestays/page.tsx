@@ -1,3 +1,5 @@
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import Link from "next/link";
 const stays = [
   {
@@ -21,11 +23,22 @@ const stays = [
 ];
 export default function Homestays() {
   return (
-    <main className="p-10">
+    <>
+    <Navbar />
+
+      <main className="p-10">
       <h1 className="text-5xl font-bold mb-10">
         Explore Homestays
       </h1>
-      <div className="grid grid-cols-3 gap-8">
+      <div
+        className="
+        grid
+        grid-cols-1
+        md:grid-cols-2
+        lg:grid-cols-3
+        gap-8
+        "
+      >
         {stays.map((stay) => (
           <div
             key={stay.id}
@@ -78,5 +91,8 @@ export default function Homestays() {
         ))}
       </div>
     </main>
+
+    <Footer />
+    </>
   );
 }
