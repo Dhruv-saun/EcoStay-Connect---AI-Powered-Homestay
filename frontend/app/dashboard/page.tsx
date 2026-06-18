@@ -97,7 +97,7 @@ export default function Dashboard() {
             dark:text-white
             ">
             <h2 className="text-2xl font-bold">
-              Eco Score
+              Sustainability Score
             </h2>
 
             <p className="mt-3">
