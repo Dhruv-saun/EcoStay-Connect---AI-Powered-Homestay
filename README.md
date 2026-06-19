@@ -24,18 +24,25 @@ Future versions will integrate AI-based recommendations, smart search, booking m
 - Git
 - GitHub
 ---
-# ✨ Current Features (Week 2)
-✅ Responsive Homepage  
-✅ Navigation Bar  
-✅ Hero Section  
-✅ Featured Stays Section  
-✅ Search UI  
-✅ Login Page UI  
-✅ Register Page UI  
-✅ Homestay Listing Page  
-✅ Booking Page UI  
-✅ Dashboard Page  
-✅ Routing using Next.js  
+# ✨ Current Features (Week 3)
+
+✅ Responsive Homepage
+✅ Navigation Bar
+✅ Hero Section
+✅ Featured Stays Section
+✅ Search UI
+✅ Login Page UI
+✅ Register Page UI
+✅ Homestay Listing Page
+✅ Booking Page UI
+✅ Dashboard Page
+✅ Routing using Next.js
+✅ Reusable Component Library
+✅ Dark / Light Mode Toggle
+✅ Responsive Dashboard Layout
+✅ Theme Provider Integration
+✅ Responsive Screenshots Support
+✅ Component Showcase Page 
 ---
 # 🧠 Planned AI Features
 - AI-powered homestay recommendations
@@ -45,18 +52,26 @@ Future versions will integrate AI-based recommendations, smart search, booking m
 - User preference analysis
 ---
 # 📂 Project Structure
-```plaintext
-EcoStay-Connect---AI-Powered-Homestay
+```EcoStay-Connect---AI-Powered-Homestay
 │
 ├── frontend
 │   ├── app
-│   │   ├── components
 │   │   ├── login
 │   │   ├── register
 │   │   ├── homestays
 │   │   ├── booking
 │   │   ├── dashboard
+│   │   ├── showcase
+│   │   ├── layout.tsx
 │   │   └── page.tsx
+│   │
+│   ├── components
+│   │   ├── Navbar.tsx
+│   │   ├── Hero.tsx
+│   │   ├── Footer.tsx
+│   │   ├── Card.tsx
+│   │   ├── ThemeProvider.tsx
+│   │   └── ui
 │
 ├── backend
 ├── docs
@@ -96,6 +111,23 @@ Displays future booking information.
 ### Dashboard
 
 ![Dashboard](./screenshots/dashboard-page.png)
+
+### Week 3 UI Deliverables
+- Wireframes
+- Lo-fi wireframes created in Figma
+### Component Library
+- Button
+- Input
+- Modal
+- Toast
+- Loader
+### Responsiveness
+- Mobile (375px)
+- Tablet (768px)
+- Desktop (1440px)
+### Theme Support
+Dark Mode
+Light Mode
 
 ### Week 1 Progress
 
@@ -145,15 +177,24 @@ http://localhost:3000
 - Frontend Development
 - UI Creation
 - Routing
-### Week 3 (Upcoming)
+### Week 3
+- UI/UX Wireframes
+- Component Library
+- Responsive Design
+- Dark / Light Mode
+- Dashboard Improvements
+### Week 4 (Upcoming)
 - FastAPI Backend
 - Supabase Integration
 - Authentication APIs
 ---
 ## Upcoming Features
-
 - FastAPI backend
 - Supabase integration
+- AI recommendation engine
+- Authentication
+- Booking management
+- User profile system
 # 👨‍💻 Developed By
 Dhruv Saun
 Internship Project – 2026
