@@ -41,7 +41,11 @@ export default function Home() {
           shadow-lg
           border
           border-gray-300
-          dark:border-gray-700
+          dark:border-gray-400
+          bg-white
+          dark:bg-neutral-900
+          text-black
+          dark:text-white
           "
         >
           <h2 className="text-2xl font-bold">
@@ -58,8 +62,11 @@ export default function Home() {
           shadow-lg
           border
           border-gray-300
-          dark:border-gray-700
-          "
+          dark:border-gray-400
+          bg-white
+          dark:bg-neutral-900
+          text-black
+          dark:text-white"
         >
           <h2 className="text-2xl font-bold">
             🧭 Personalized Experience
@@ -75,8 +82,11 @@ export default function Home() {
           shadow-lg
           border
           border-gray-300
-          dark:border-gray-700
-          "
+          dark:border-gray-400
+          bg-white
+          dark:bg-neutral-900
+          text-black
+          dark:text-white"
         >
           <h2 className="text-2xl font-bold">
             ⚡ Easy Booking
@@ -90,6 +100,10 @@ export default function Home() {
         className="
         text-center
         p-16
+        bg-white
+        dark:bg-black
+        text-black
+        dark:text-white
         "
       >
         <h2
