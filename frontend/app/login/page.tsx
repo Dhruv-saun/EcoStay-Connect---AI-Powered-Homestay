@@ -1,6 +1,6 @@
+"use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import Link from "next/link";
 export default function Login() {
   return (
     <>
@@ -11,43 +11,48 @@ export default function Login() {
         flex
         justify-center
         items-center
-        p-8
+        p-10
         "
       >
         <div
           className="
           w-full
-          max-w-md
+          max-w-[500px]
+          p-8
           rounded-xl
-          shadow-lg
+          shadow-xl
           border
           border-gray-300
-          dark:border-gray-700
+          dark:border-gray-500
           bg-white
           dark:bg-neutral-900
-          p-8
+          text-black
+          dark:text-white
           "
         >
           <h1
             className="
             text-4xl
             font-bold
-            mb-2
+            mb-6
             "
           >
-            Welcome Back
+            Login
           </h1>
-          <p className="mb-8">
-            Login to continue your eco journey
-          </p>
           <input
             type="email"
             placeholder="Email"
             className="
             w-full
-            border
-            rounded-lg
             p-3
+            rounded
+            border
+            border-gray-300
+            dark:border-gray-500
+            bg-white
+            dark:bg-neutral-800
+            text-black
+            dark:text-white
             mb-4
             "
           />
@@ -56,38 +61,35 @@ export default function Login() {
             placeholder="Password"
             className="
             w-full
-            border
-            rounded-lg
             p-3
+            rounded
+            border
+            border-gray-300
+            dark:border-gray-500
+            bg-white
+            dark:bg-neutral-800
+            text-black
+            dark:text-white
             mb-6
             "
           />
           <button
+            onClick={() =>
+              alert(
+                "Authentication will connect in Week 4"
+              )
+            }
             className="
-            w-full
             bg-green-700
+            hover:bg-green-800
             text-white
+            w-full
             p-3
-            rounded-lg
+            rounded
             "
           >
             Login
           </button>
-          <div
-            className="
-            mt-6
-            text-center
-            "
-          >
-            <Link
-              href="/register"
-              className="
-              text-green-700
-              "
-            >
-              Create Account
-            </Link>
-          </div>
         </div>
       </main>
       <Footer />

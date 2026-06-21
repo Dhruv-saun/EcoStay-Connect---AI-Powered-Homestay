@@ -1,6 +1,6 @@
+"use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import Link from "next/link";
 export default function Register() {
   return (
     <>
@@ -11,43 +11,47 @@ export default function Register() {
         flex
         justify-center
         items-center
-        p-8
+        p-10
         "
       >
         <div
           className="
           w-full
-          max-w-md
+          max-w-[550px]
+          p-8
           rounded-xl
-          shadow-lg
+          shadow-xl
           border
           border-gray-300
-          dark:border-gray-700
+          dark:border-gray-500
           bg-white
           dark:bg-neutral-900
-          p-8
+          text-black
+          dark:text-white
           "
         >
           <h1
             className="
             text-4xl
             font-bold
-            mb-2
+            mb-6
             "
           >
-            Create Account
+            Register
           </h1>
-          <p className="mb-8">
-            Join EcoStay Connect
-          </p>
           <input
-            type="text"
             placeholder="Full Name"
             className="
             w-full
-            border
-            rounded-lg
             p-3
+            rounded
+            border
+            border-gray-300
+            dark:border-gray-500
+            bg-white
+            dark:bg-neutral-800
+            text-black
+            dark:text-white
             mb-4
             "
           />
@@ -56,9 +60,15 @@ export default function Register() {
             placeholder="Email"
             className="
             w-full
-            border
-            rounded-lg
             p-3
+            rounded
+            border
+            border-gray-300
+            dark:border-gray-500
+            bg-white
+            dark:bg-neutral-800
+            text-black
+            dark:text-white
             mb-4
             "
           />
@@ -67,57 +77,54 @@ export default function Register() {
             placeholder="Password"
             className="
             w-full
-            border
-            rounded-lg
             p-3
+            rounded
+            border
+            border-gray-300
+            dark:border-gray-500
+            bg-white
+            dark:bg-neutral-800
+            text-black
+            dark:text-white
             mb-4
             "
           />
           <select
             className="
             w-full
-            border
-            rounded-lg
             p-3
+            rounded
+            border
+            border-gray-300
+            dark:border-gray-500
+            bg-white
+            dark:bg-neutral-800
+            text-black
+            dark:text-white
             mb-6
             "
           >
-          <option>
-            Register As
-          </option>
-          <option>
-            Traveler / Guest
-          </option>
-          <option>
-            Host
-          </option>
+            <option>Select Role</option>
+            <option>Traveller</option>
+            <option>Host</option>
           </select>
           <button
+            onClick={() =>
+              alert(
+                "Registration system will connect in Week 4"
+              )
+            }
             className="
-            w-full
             bg-green-700
+            hover:bg-green-800
             text-white
+            w-full
             p-3
-            rounded-lg
+            rounded
             "
           >
-            Register
+            Create Account
           </button>
-          <div
-            className="
-            mt-6
-            text-center
-            "
-          >
-            <Link
-              href="/login"
-              className="
-              text-green-700
-              "
-            >
-              Already have an account?
-            </Link>
-          </div>
         </div>
       </main>
       <Footer />
