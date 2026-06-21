@@ -1,3 +1,4 @@
+"use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 export default function Booking() {
@@ -15,10 +16,16 @@ export default function Booking() {
     >
       <div
         className="
-        w-[500px]
+        w-full
+        max-w-[550px]
         p-8
         rounded-xl
         shadow-lg
+        border
+        border-gray-300
+        dark:border-gray-700
+        bg-white
+        dark:bg-neutral-900
         "
       >
         <h1 className="text-4xl font-bold mb-6">
@@ -32,7 +39,7 @@ export default function Booking() {
           rounded
           mb-4
           "
-          placeholder="Your Name"
+          placeholder="Full Name"
         />
         <input
           className="
@@ -42,7 +49,7 @@ export default function Booking() {
           rounded
           mb-4
           "
-          placeholder="Check In Date"
+          placeholder="Email"
         />
         <input
           className="
@@ -50,18 +57,54 @@ export default function Booking() {
           border
           p-3
           rounded
-          mb-6
+          mb-4
           "
-          placeholder="Check Out Date"
+          placeholder="Number of Guests"
         />
-        <button
+        <input
+          type="date"
           className="
-          bg-green-700
-          text-white
           w-full
+          border
           p-3
           rounded
+          mb-4
           "
+        />
+        <input
+          type="date"
+          className="
+          w-full
+          border
+          p-3
+          rounded
+          mb-4
+          "
+        />
+        <textarea
+          placeholder="Special Requests"
+          className="
+          w-full
+          border
+          p-3
+          rounded
+          mb-6
+          h-28
+          "
+        />
+        <button
+        onClick={() =>
+        alert(
+          "Booking system will connect in Week 4"
+        )
+        }
+        className="
+        bg-green-700
+        text-white
+        w-full
+        p-3
+        rounded
+        "
         >
           Confirm Booking
         </button>
