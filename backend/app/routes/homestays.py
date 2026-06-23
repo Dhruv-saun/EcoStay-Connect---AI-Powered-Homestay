@@ -1,32 +1,17 @@
 from fastapi import APIRouter
 
-router = APIRouter()
+from app.services.homestay_service import (
+    homestays,
+    get_all
+)
 
-homestays = [
-    {
-        "id": 1,
-        "title": "Mountain View Cottage",
-        "location": "Mussoorie",
-        "price": 2500
-    },
-    {
-        "id": 2,
-        "title": "Forest Eco Retreat",
-        "location": "Rishikesh",
-        "price": 3200
-    },
-    {
-        "id": 3,
-        "title": "Lake Side Homestay",
-        "location": "Nainital",
-        "price": 2800
-    }
-]
+router = APIRouter()
 
 
 @router.get("/homestays")
 def get_homestays():
-    return homestays
+
+    return get_all()
 
 
 @router.get("/homestays/search")
@@ -52,6 +37,7 @@ def get_single_homestay(stay_id: int):
     for stay in homestays:
 
         if stay["id"] == stay_id:
+
             return stay
 
     return {
@@ -62,7 +48,7 @@ def get_single_homestay(stay_id: int):
 @router.post("/homestays")
 def create_homestay(stay: dict):
 
-    stay["id"] = len(homestays)+1
+    stay["id"] = len(homestays) + 1
 
     homestays.append(stay)
 
