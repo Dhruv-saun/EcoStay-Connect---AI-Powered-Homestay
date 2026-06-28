@@ -1,58 +1,84 @@
-type CardProps = {
-  title: string;
-  location: string;
-  price: string;
-};
+import Image from "next/image";
+
 export default function Card({
-  title,
-  location,
-  price,
-}: CardProps) {
-  return (
-    <div
-      className="
-      rounded-xl
-      shadow-xl
-      border
-      border-gray-300
-      dark:border-gray-500
-      bg-white
-      dark:bg-neutral-900
-      text-black
-      dark:text-white
-      p-6
-      w-full
-      transition
-      "
-    >
-      <div
-        className="
-        h-40
-        bg-green-200
-        dark:bg-green-900
-        rounded-lg
-        mb-4
-        border
-        border-gray-300
-        dark:border-gray-500
-        "
-      />
-      <h2 className="text-2xl font-bold">
-        {title}
-      </h2>
-      <p className="mt-2">
-        📍 {location}
-      </p>
-      <p
-        className="
-        font-semibold
-        mt-2
-        text-green-700
-        dark:text-green-400
-        "
-      >
-        {price}
-      </p>
-    </div>
-  );
+    title,
+    location,
+    price,
+    image,
+    }: any) {
+
+    return (
+
+  <div
+    className="
+    bg-white
+    rounded-3xl
+    overflow-hidden
+    shadow-md
+    hover:shadow-xl
+    duration-300
+    "
+  >
+
+  <div
+    className="
+    relative
+    w-full
+    h-[220px]
+    "
+  >
+
+  <Image
+    src={image}
+    alt={title}
+    fill
+    className="
+    object-cover
+    "
+  />
+
+  </div>
+
+
+  <div className="p-5">
+
+  <h3
+    className="
+    text-2xl
+    font-bold
+    text-black
+    "
+  >
+    {title}
+  </h3>
+
+  <p
+    className="
+    mt-2
+    text-gray-600
+    "
+  >
+    {location}
+  </p>
+
+  {price && (
+
+  <p
+    className="
+    mt-3
+    text-green-700
+    font-semibold
+    "
+  >
+    {price}
+  </p>
+
+  )}
+
+  </div>
+
+</div>
+
+);
+
 }

@@ -1,3 +1,9 @@
+from fastapi.exceptions import RequestValidationError
+
+from app.core.error_handler import (
+    validation_exception_handler,
+    global_exception_handler
+)
 from app.core.exceptions import (
     NotFoundException,
     not_found_handler
@@ -11,6 +17,16 @@ from app.routes.homestays import router
 app = FastAPI(
     title="EcoStay Connect API",
     version="1.0.0"
+)
+
+app.add_exception_handler(
+    RequestValidationError,
+    validation_exception_handler
+)
+
+app.add_exception_handler(
+    Exception,
+    global_exception_handler
 )
 
 app.add_exception_handler(

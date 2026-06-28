@@ -1,99 +1,116 @@
-from fastapi import APIRouter
+from fastapi import (
+    APIRouter,
+    HTTPException,
+    status
+)
 
 from app.services.homestay_service import (
-    homestays,
     get_all
 )
 
 router = APIRouter()
 
 
-@router.get("/homestays")
+@router.get(
+    "/homestays",
+    status_code=200
+)
 def get_homestays():
 
     return get_all()
 
 
-@router.get("/homestays/search")
-def search_homestays(location: str):
+@router.get(
+    "/homestays/{stay_id}",
+    status_code=200
+)
+def get_single_homestay(
+    stay_id: int
+):
 
-    results = []
+    stays = get_all()
 
-    for stay in homestays:
-
-        if location.lower() in stay["location"].lower():
-
-            results.append(stay)
-
-    return {
-        "count": len(results),
-        "results": results
-    }
-
-
-@router.get("/homestays/{stay_id}")
-def get_single_homestay(stay_id: int):
-
-    for stay in homestays:
+    for stay in stays:
 
         if stay["id"] == stay_id:
-
             return stay
 
+    raise HTTPException(
+        status_code=404,
+        detail="Homestay not found"
+    )
+
+
+@router.post(
+    "/homestays",
+    status_code=201
+)
+def create_homestay(
+    stay: dict
+):
+
+    stays = get_all()
+
+    stay["id"] = len(stays) + 1
+
+    stays.append(stay)
+
     return {
-        "error": "Homestay not found"
-    }
-
-
-@router.post("/homestays")
-def create_homestay(stay: dict):
-
-    stay["id"] = len(homestays) + 1
-
-    homestays.append(stay)
-
-    return {
-        "message": "Homestay created",
+        "success": True,
         "data": stay
     }
 
 
-@router.put("/homestays/{stay_id}")
+@router.put(
+    "/homestays/{stay_id}",
+    status_code=200
+)
 def update_homestay(
     stay_id: int,
     updated_data: dict
 ):
 
-    for stay in homestays:
+    stays = get_all()
+
+    for stay in stays:
 
         if stay["id"] == stay_id:
 
             stay.update(updated_data)
 
             return {
-                "message": "Homestay updated",
+                "success": True,
                 "data": stay
             }
 
-    return {
-        "error": "Homestay not found"
-    }
+    raise HTTPException(
+        status_code=404,
+        detail="Homestay not found"
+    )
 
 
-@router.delete("/homestays/{stay_id}")
-def delete_homestay(stay_id: int):
+@router.delete(
+    "/homestays/{stay_id}",
+    status_code=200
+)
+def delete_homestay(
+    stay_id: int
+):
 
-    for index, stay in enumerate(homestays):
+    stays = get_all()
+
+    for i, stay in enumerate(stays):
 
         if stay["id"] == stay_id:
 
-            deleted = homestays.pop(index)
+            deleted = stays.pop(i)
 
             return {
-                "message": "Homestay deleted",
+                "success": True,
                 "data": deleted
             }
 
-    return {
-        "error": "Homestay not found"
-    }
+    raise HTTPException(
+        status_code=404,
+        detail="Homestay not found"
+    )

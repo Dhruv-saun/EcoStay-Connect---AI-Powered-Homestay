@@ -5,7 +5,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export default function Booking() {
-
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -16,9 +15,7 @@ export default function Booking() {
   });
 
   async function handleBooking() {
-
     try {
-
       const response = await fetch(
         "http://localhost:8000/homestays",
         {
@@ -37,23 +34,18 @@ export default function Booking() {
       );
 
       if (response.ok) {
-
         alert(
-          `Booking confirmed
+`Booking confirmed
+
 Check-in: ${form.checkin}
+
 Check-out: ${form.checkout}`
         );
-
       } else {
-
         alert("Booking failed");
-
       }
-
     } catch {
-
       alert("Backend not reachable");
-
     }
   }
 
@@ -64,67 +56,181 @@ Check-out: ${form.checkout}`
       <main
         className="
         min-h-screen
+        pt-36
+        px-6
+
         flex
         justify-center
         items-center
+
+        bg-background
+        text-foreground
         "
       >
-
         <div
           className="
-          w-[500px]
-          p-8
-          rounded-xl
-          shadow-lg
-          border
-          border-gray-300
-          dark:border-gray-700
+          w-full
+          max-w-[550px]
+
+          p-10
+
+          rounded-[32px]
+
+          shadow-2xl
+
           bg-white
           dark:bg-neutral-900
+
+          border
+          border-gray-300
+          dark:border-neutral-700
           "
         >
-
-          <h1 className="text-4xl font-bold mb-6">
+          <h1
+            className="
+            text-5xl
+            font-black
+            mb-8
+            "
+          >
             Book Your Stay
           </h1>
 
           <input
             placeholder="Full Name"
-            className="w-full border p-3 rounded mb-4"
-            onChange={(e)=>
-              setForm({...form,name:e.target.value})
+            className="
+            w-full
+            p-4
+            rounded-xl
+            mb-4
+
+            bg-white
+            dark:bg-neutral-950
+
+            border
+            border-gray-300
+            dark:border-neutral-700
+
+            text-black
+            dark:text-white
+            "
+            onChange={(e) =>
+              setForm({
+                ...form,
+                name: e.target.value,
+              })
             }
           />
 
           <input
             placeholder="Email"
-            className="w-full border p-3 rounded mb-4"
-            onChange={(e)=>
-              setForm({...form,email:e.target.value})
+            className="
+            w-full
+            p-4
+            rounded-xl
+            mb-4
+
+            bg-white
+            dark:bg-neutral-950
+
+            border
+            border-gray-300
+            dark:border-neutral-700
+
+            text-black
+            dark:text-white
+            "
+            onChange={(e) =>
+              setForm({
+                ...form,
+                email: e.target.value,
+              })
             }
           />
 
           <input
-            placeholder="Number of Guests"
-            className="w-full border p-3 rounded mb-4"
-            onChange={(e)=>
-              setForm({...form,guests:e.target.value})
+            placeholder="Guests"
+            className="
+            w-full
+            p-4
+            rounded-xl
+            mb-4
+
+            bg-white
+            dark:bg-neutral-950
+
+            border
+            border-gray-300
+            dark:border-neutral-700
+
+            text-black
+            dark:text-white
+            "
+            onChange={(e) =>
+              setForm({
+                ...form,
+                guests: e.target.value,
+              })
             }
           />
+
+          <label className="block mb-2">
+            Check-in
+          </label>
 
           <input
             type="date"
-            className="w-full border p-3 rounded mb-4"
-            onChange={(e)=>
-              setForm({...form,checkin:e.target.value})
+            className="
+            w-full
+            p-4
+            rounded-xl
+            mb-4
+
+            bg-white
+            dark:bg-neutral-950
+
+            border
+            border-gray-300
+            dark:border-neutral-700
+
+            text-black
+            dark:text-white
+            "
+            onChange={(e) =>
+              setForm({
+                ...form,
+                checkin: e.target.value,
+              })
             }
           />
 
+          <label className="block mb-2">
+            Check-out
+          </label>
+
           <input
             type="date"
-            className="w-full border p-3 rounded mb-4"
-            onChange={(e)=>
-              setForm({...form,checkout:e.target.value})
+            className="
+            w-full
+            p-4
+            rounded-xl
+            mb-4
+
+            bg-white
+            dark:bg-neutral-950
+
+            border
+            border-gray-300
+            dark:border-neutral-700
+
+            text-black
+            dark:text-white
+            "
+            onChange={(e) =>
+              setForm({
+                ...form,
+                checkout: e.target.value,
+              })
             }
           />
 
@@ -132,32 +238,53 @@ Check-out: ${form.checkout}`
             placeholder="Special Requests"
             className="
             w-full
+            h-32
+
+            p-4
+
+            rounded-xl
+
+            mb-8
+
+            bg-white
+            dark:bg-neutral-950
+
             border
-            p-3
-            rounded
-            mb-6
-            h-28
+            border-gray-300
+            dark:border-neutral-700
+
+            text-black
+            dark:text-white
             "
-            onChange={(e)=>
-              setForm({...form,requests:e.target.value})
+            onChange={(e) =>
+              setForm({
+                ...form,
+                requests: e.target.value,
+              })
             }
           />
 
           <button
             onClick={handleBooking}
             className="
-            bg-green-700
-            text-white
             w-full
-            p-3
-            rounded
+
+            p-4
+
+            rounded-2xl
+
+            bg-green-600
+            hover:bg-green-700
+
+            text-white
+            font-bold
+
+            duration-300
             "
           >
             Confirm Booking
           </button>
-
         </div>
-
       </main>
 
       <Footer />
