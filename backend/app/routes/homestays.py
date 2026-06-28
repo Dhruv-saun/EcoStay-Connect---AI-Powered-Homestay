@@ -1,3 +1,4 @@
+
 from fastapi import (
     APIRouter,
     HTTPException,
@@ -11,6 +12,8 @@ from app.services.homestay_service import (
 router = APIRouter()
 
 
+# GET ALL
+
 @router.get(
     "/homestays",
     status_code=200
@@ -19,6 +22,37 @@ def get_homestays():
 
     return get_all()
 
+
+# SEARCH (IMPORTANT → ABOVE stay_id)
+
+@router.get(
+    "/homestays/search",
+    status_code=200
+)
+def search_homestays(
+    location: str
+):
+
+    stays = get_all()
+
+    results = []
+
+    for stay in stays:
+
+        if (
+            location.lower()
+            in stay["location"].lower()
+        ):
+
+            results.append(stay)
+
+    return {
+        "count": len(results),
+        "results": results
+    }
+
+
+# GET SINGLE
 
 @router.get(
     "/homestays/{stay_id}",
@@ -41,6 +75,8 @@ def get_single_homestay(
     )
 
 
+# CREATE
+
 @router.post(
     "/homestays",
     status_code=201
@@ -60,6 +96,8 @@ def create_homestay(
         "data": stay
     }
 
+
+# UPDATE
 
 @router.put(
     "/homestays/{stay_id}",
@@ -89,6 +127,8 @@ def update_homestay(
     )
 
 
+# DELETE
+
 @router.delete(
     "/homestays/{stay_id}",
     status_code=200
@@ -114,3 +154,4 @@ def delete_homestay(
         status_code=404,
         detail="Homestay not found"
     )
+
