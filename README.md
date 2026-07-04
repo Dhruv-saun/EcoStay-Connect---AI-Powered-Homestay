@@ -1,33 +1,31 @@
 # 🌿 EcoStay Connect – AI Powered Homestay Platform
 
-EcoStay Connect is a full-stack web application designed to support sustainable tourism and eco-friendly homestay discovery.
+EcoStay Connect is a full-stack web application that promotes sustainable tourism by connecting travelers with eco-friendly homestays. The platform enables users to browse homestays, create accounts, log in securely, and book accommodations through a modern web interface.
 
-The platform allows users to explore homestays, view stay details, and make bookings through a modern web experience.
-
-This project is developed as part of an internship program and follows milestone-based weekly deliverables.
+Developed as part of an internship program, the project follows milestone-based weekly deliverables.
 
 ---
 
 # 📌 Sector
 
-Homestay & Eco-Tourism
+**Homestay & Eco-Tourism**
 
 ---
 
 # 📖 Project Description
 
-EcoStay Connect is an AI-powered homestay discovery and booking platform that connects travelers with sustainable and eco-friendly stays.
+EcoStay Connect is an AI-powered homestay discovery and booking platform designed to support sustainable tourism.
 
 Users can:
 
-* Browse available homestays
+* Browse eco-friendly homestays
 * Explore destinations
-* Register and login
-* View homestay listings
+* Register and log in securely
+* View homestay details
 * Book accommodations
-* Experience dark/light mode UI
+* Switch between Dark and Light mode
 
-Future updates will integrate AI recommendations and personalized travel experiences.
+Future versions will include AI-based recommendations, personalized travel suggestions, and smart search capabilities.
 
 ---
 
@@ -35,8 +33,9 @@ Future updates will integrate AI recommendations and personalized travel experie
 
 ## Frontend
 
-* Next.js
-* React.js
+* Next.js 16
+* React
+* TypeScript
 * Tailwind CSS
 
 ## Backend
@@ -45,8 +44,11 @@ Future updates will integrate AI recommendations and personalized travel experie
 
 ## Database
 
-* In-memory data storage (Current)
-* PostgreSQL + Supabase (Planned)
+* PostgreSQL (Supabase)
+
+## Authentication
+
+* Supabase Authentication
 
 ## Version Control
 
@@ -55,34 +57,47 @@ Future updates will integrate AI recommendations and personalized travel experie
 
 ---
 
-# ✨ Implemented Features
+# ✨ Features Implemented
 
 ## Frontend
 
-✅ Responsive Homepage
-✅ Navigation Bar
-✅ Hero Section
-✅ Search Bar UI
-✅ Featured Destinations
-✅ Homestay Listing Page
-✅ Booking Page
-✅ Dashboard Page
-✅ Login & Register UI
-✅ Dark / Light Mode
-✅ Responsive Layout
+* Responsive Homepage
+* Navigation Bar
+* Hero Section
+* Featured Destinations
+* Homestay Listing Page
+* Booking Page
+* User Dashboard
+* Login Page
+* Registration Page
+* Dark / Light Theme
+* Responsive Layout
 
 ## Backend
 
-✅ REST API using FastAPI
-✅ GET All Homestays
-✅ GET Single Homestay
-✅ POST Create Homestay
-✅ PUT Update Homestay
-✅ DELETE Homestay
-✅ Search Endpoint
-✅ Proper HTTP Status Codes
-✅ Validation Handling
-✅ Exception Middleware
+* FastAPI REST APIs
+* CRUD Operations
+* Search Endpoint
+* Validation
+* Error Handling
+* Swagger Documentation
+
+## Database (Supabase)
+
+* Homestays Table
+* Bookings Table
+* User Authentication
+* Row Level Security (RLS)
+* Secure Booking Storage
+
+## Authentication
+
+* User Registration
+* Email Verification
+* User Login
+* User Logout
+* Session Persistence
+* Protected Authentication using Supabase
 
 ---
 
@@ -99,13 +114,52 @@ Future updates will integrate AI recommendations and personalized travel experie
 
 ---
 
+# 🗄 Database Schema
+
+The project uses PostgreSQL (Supabase).
+
+Database schema:
+
+```
+Users
+ ├── id (UUID)
+ ├── full_name
+ └── email
+
+Homestays
+ ├── id
+ ├── title
+ ├── location
+ ├── description
+ ├── image_url
+ └── price
+
+Bookings
+ ├── id
+ ├── user_id
+ ├── homestay_id
+ ├── guests
+ ├── checkin
+ ├── checkout
+ ├── requests
+ └── created_at
+```
+
+ER Diagram:
+
+```
+docs/database-schema.png
+```
+
+---
+
 # 📂 Project Structure
 
-```plaintext
+```
 EcoStay-Connect---AI-Powered-Homestay
 
-frontend/
 backend/
+frontend/
 docs/
 screenshots/
 README.md
@@ -113,10 +167,10 @@ README.md
 
 ---
 
-# ⚙️ How To Run Frontend Locally
+# ⚙️ Running Frontend
 
 ```bash
-git clone <YOUR_GITHUB_REPO_LINK>
+git clone <repository-url>
 
 cd EcoStay-Connect---AI-Powered-Homestay
 
@@ -127,24 +181,24 @@ npm install
 npm run dev
 ```
 
-Open:
+Frontend runs at:
 
-```plaintext
+```
 http://localhost:3000
 ```
 
 ---
 
-# ⚙️ How To Run Backend Locally
+# ⚙️ Running Backend
 
-Open new terminal:
+Open another terminal.
 
 ```bash
 cd backend
 
-python -m venv venv
+python -m venv .venv
 
-venv\Scripts\activate
+.venv\Scripts\activate
 
 pip install -r requirements.txt
 
@@ -153,13 +207,13 @@ uvicorn app.main:app --reload
 
 Backend:
 
-```plaintext
+```
 http://localhost:8000
 ```
 
 Swagger:
 
-```plaintext
+```
 http://localhost:8000/docs
 ```
 
@@ -167,27 +221,33 @@ http://localhost:8000/docs
 
 # 🔐 Environment Variables
 
-Create:
+Frontend:
 
-```plaintext
+```
+frontend/.env.local
+```
+
+Example:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=your_project_url
+
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+```
+
+Backend:
+
+```
 backend/.env
 ```
 
 Example:
 
-```env
+```
 DATABASE_URL=
 SUPABASE_URL=
 SUPABASE_KEY=
 ```
-
-Create:
-
-```plaintext
-backend/.env.example
-```
-
-Add variable names only.
 
 ---
 
@@ -195,54 +255,103 @@ Add variable names only.
 
 ## Homepage
 
-![Homepage](./screenshots/homepage.png)
-
-## Homestays
-
-![Homestays](./screenshots/homestays-page.png)
-
-## Dashboard
-
-![Dashboard](./screenshots/dashboard-page.png)
+![Homepage](screenshots/homepage.png)
 
 ---
 
-# 📅 Progress Status
+## Homestays Page
 
-### Week 1
+![Homestays](screenshots/homestays-page.png)
 
-* Planning
+---
+
+## Booking Page
+
+![Booking](screenshots/booking_page.png)
+
+---
+
+## Login Page
+
+![Login](screenshots/login-page.png)
+
+---
+
+## Registration Page
+
+![Register](screenshots/register-page.png)
+
+---
+
+## Dashboard
+
+![Dashboard](screenshots/dashboard.png)
+
+---
+
+## Week 1 Progress
+
+![Week1](screenshots/week-1-progress.png)
+
+---
+
+# 📅 Weekly Progress
+
+## ✅ Week 1
+
+* Project Planning
 * Documentation
+* UI Design
+* Repository Setup
 
-### Week 2
+## ✅ Week 2
 
-* Frontend Development
+* Homepage
+* Navigation
+* Homestay Listing
+* Responsive UI
 
-### Week 3
+## ✅ Week 3
 
-* UI & Responsiveness
+* Dashboard
+* Booking UI
+* Login UI
+* Registration UI
+* Theme Switching
 
-### Week 4
+## ✅ Week 4
 
 * FastAPI Backend
-* REST API
-* Frontend ↔ Backend Connection
-* API Testing
+* REST APIs
+* CRUD Operations
+* Frontend–Backend Integration
+
+## ✅ Week 5
+
+* PostgreSQL (Supabase)
+* Database Integration
+* Authentication
+* Email Verification
+* Login & Logout
+* Booking Storage
+* Row Level Security (RLS)
 
 ---
 
 # 🧠 Future Improvements
 
-* AI Recommendations
+* AI Recommendation System
 * Smart Search
 * User Profiles
-* Authentication
 * Booking History
-* Supabase Integration
+* Reviews & Ratings
+* Host Dashboard
+* Payment Gateway Integration
 
 ---
 
 # 👨‍💻 Developed By
 
-Dhruv Saun
+**Dhruv Saun**
+
 Internship Project – 2026
