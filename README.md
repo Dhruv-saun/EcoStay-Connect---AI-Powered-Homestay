@@ -1,8 +1,16 @@
-# 🌿 EcoStay Connect – AI Powered Homestay Platform
+# 🌿 EcoStay Connect – Sustainable Homestay Booking Platform
 
-EcoStay Connect is a full-stack web application that promotes sustainable tourism by connecting travelers with eco-friendly homestays. The platform enables users to browse homestays, create accounts, log in securely, and book accommodations through a modern web interface.
+EcoStay Connect is a full-stack web application that promotes sustainable tourism by connecting travelers with eco-friendly homestays. The platform allows users to discover destinations, book accommodations, manage their travel history, submit reviews, and maintain personal profiles through a modern and responsive interface.
 
-Developed as part of an internship program, the project follows milestone-based weekly deliverables.
+The project also includes a secure Admin Dashboard for managing homestays and monitoring booking analytics.
+
+---
+
+# 🔗 GitHub Repository
+
+Repository Link:
+
+https://github.com/Dhruv-saun/EcoStay-Connect---AI-Powered-Homestay
 
 ---
 
@@ -12,20 +20,30 @@ Developed as part of an internship program, the project follows milestone-based 
 
 ---
 
-# 📖 Project Description
+# 📖 Project Overview
 
-EcoStay Connect is an AI-powered homestay discovery and booking platform designed to support sustainable tourism.
+EcoStay Connect is designed to encourage sustainable tourism by providing an easy-to-use booking platform for eco-friendly accommodations.
 
 Users can:
 
-* Browse eco-friendly homestays
-* Explore destinations
-* Register and log in securely
-* View homestay details
-* Book accommodations
-* Switch between Dark and Light mode
+- Browse eco-friendly homestays
+- Search and filter destinations
+- Create an account
+- Login securely
+- Book homestays
+- Manage bookings
+- Save favorite destinations
+- Submit reviews
+- Update their profile
+- Track booking history
 
-Future versions will include AI-based recommendations, personalized travel suggestions, and smart search capabilities.
+Administrators can:
+
+- Add new homestays
+- View booking analytics
+- Monitor platform activity
+- Access booking trends
+- Manage platform content securely
 
 ---
 
@@ -33,84 +51,72 @@ Future versions will include AI-based recommendations, personalized travel sugge
 
 ## Frontend
 
-* Next.js 16
-* React
-* TypeScript
-* Tailwind CSS
+- Next.js 15
+- React
+- TypeScript
+- Tailwind CSS
 
 ## Backend
 
-* FastAPI (Python)
+- Supabase
 
 ## Database
 
-* PostgreSQL (Supabase)
+- PostgreSQL (Supabase)
 
 ## Authentication
 
-* Supabase Authentication
+- Supabase Authentication
+
+## Charts & Analytics
+
+- Recharts
 
 ## Version Control
 
-* Git
-* GitHub
+- Git
+- GitHub
 
 ---
 
 # ✨ Features Implemented
 
-## Frontend
+## 👤 User Features
 
-* Responsive Homepage
-* Navigation Bar
-* Hero Section
-* Featured Destinations
-* Homestay Listing Page
-* Booking Page
-* User Dashboard
-* Login Page
-* Registration Page
-* Dark / Light Theme
-* Responsive Layout
-
-## Backend
-
-* FastAPI REST APIs
-* CRUD Operations
-* Search Endpoint
-* Validation
-* Error Handling
-* Swagger Documentation
-
-## Database (Supabase)
-
-* Homestays Table
-* Bookings Table
-* User Authentication
-* Row Level Security (RLS)
-* Secure Booking Storage
-
-## Authentication
-
-* User Registration
-* Email Verification
-* User Login
-* User Logout
-* Session Persistence
-* Protected Authentication using Supabase
+- User Registration
+- Email Verification
+- Secure Login
+- Logout
+- Session Persistence
+- User Profile Management
+- Browse Homestays
+- Search Homestays
+- Filter by Location
+- Sort by Price
+- Favorite Homestays
+- Book Homestays
+- Booking Confirmation
+- Cancel Booking
+- Booking Status Tracking
+- User Dashboard
+- Submit Reviews
+- Dark / Light Theme
+- Responsive Design
 
 ---
 
-# 🔌 Backend API Endpoints
+## 🔐 Admin Features
 
-| Method | Endpoint          | Description       |
-| ------ | ----------------- | ----------------- |
-| GET    | /homestays        | Get all homestays |
-| GET    | /homestays/{id}   | Get one homestay  |
-| POST   | /homestays        | Create homestay   |
-| PUT    | /homestays/{id}   | Update homestay   |
-| DELETE | /homestays/{id}   | Delete homestay   |
-| GET    | /homestays/search | Search homestays  |
+- Protected Admin Dashboard
+- Add New Homestays
+- Platform Analytics
+- Total Users
+- Total Bookings
+- Total Reviews
+- Total Homestays
+- Booking Trend Chart
+- Most Popular Homestay
+- Admin Route Protection
 
 ---
 
@@ -118,70 +124,173 @@ Future versions will include AI-based recommendations, personalized travel sugge
 
 The project uses PostgreSQL (Supabase).
 
-Database schema:
+## Profiles
 
 ```
-Users
- ├── id (UUID)
- ├── full_name
- └── email
-
-Homestays
- ├── id
- ├── title
- ├── location
- ├── description
- ├── image_url
- └── price
-
-Bookings
- ├── id
- ├── user_id
- ├── homestay_id
- ├── guests
- ├── checkin
- ├── checkout
- ├── requests
- └── created_at
+id (UUID)
+full_name
+phone
+city
+avatar_url
+is_admin
+created_at
 ```
 
-ER Diagram:
+## Homestays
 
 ```
-docs/database-schema.png
+id
+title
+location
+description
+image_url
+price
+created_at
 ```
+
+## Bookings
+
+```
+id
+user_id
+homestay_id
+guests
+checkin
+checkout
+requests
+status
+created_at
+```
+
+## Favorites
+
+```
+id
+user_id
+homestay_id
+created_at
+```
+
+## Reviews
+
+```
+id
+user_id
+homestay_id
+rating
+review
+created_at
+```
+
+---
+
+# 📊 Admin Dashboard
+
+The Admin Dashboard includes:
+
+- Total Users
+- Total Homestays
+- Total Bookings
+- Total Reviews
+- Booking Trend Analytics
+- Most Popular Homestay
+- Add New Homestays
+- Protected Admin Access
+
+---
+
+# 👤 User Dashboard
+
+Users can:
+
+- View Profile
+- Manage Personal Information
+- View Booking History
+- Cancel Bookings
+- Track Booking Status
+- Access Favorite Homestays
+- View Latest Booking
+
+---
+
+# 🔒 Security Features
+
+- Secure Authentication using Supabase
+- Protected User Routes
+- Protected Admin Routes
+- Row Level Security (RLS)
+- Secure Booking Storage
+- Admin Authorization using Profiles Table
 
 ---
 
 # 📂 Project Structure
 
 ```
-EcoStay-Connect---AI-Powered-Homestay
+EcoStay Connect
 
-backend/
-frontend/
-docs/
+app/
+│
+├── admin/
+├── booking/
+├── booking-success/
+├── dashboard/
+├── favorites/
+├── homestays/
+├── login/
+├── profile/
+├── register/
+├── reviews/
+│
+components/
+│
+lib/
+│
+public/
+│   └── images/
+│
 screenshots/
+│
 README.md
 ```
 
 ---
 
-# ⚙️ Running Frontend
+# ⚙ Installation
+
+Clone the repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Dhruv-saun/EcoStay-Connect---AI-Powered-Homestay.git
+```
 
+Move into the project
+
+```bash
 cd EcoStay-Connect---AI-Powered-Homestay
+```
 
-cd frontend
+Install dependencies
 
+```bash
 npm install
+```
 
+Create a `.env.local` file
+
+```
+NEXT_PUBLIC_SUPABASE_URL=YOUR_SUPABASE_URL
+
+NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
+```
+
+Run the development server
+
+```bash
 npm run dev
 ```
 
-Frontend runs at:
+Visit:
 
 ```
 http://localhost:3000
@@ -189,109 +298,37 @@ http://localhost:3000
 
 ---
 
-# ⚙️ Running Backend
-
-Open another terminal.
-
-```bash
-cd backend
-
-python -m venv .venv
-
-.venv\Scripts\activate
-
-pip install -r requirements.txt
-
-uvicorn app.main:app --reload
-```
-
-Backend:
-
-```
-http://localhost:8000
-```
-
-Swagger:
-
-```
-http://localhost:8000/docs
-```
-
----
-
-# 🔐 Environment Variables
-
-Frontend:
-
-```
-frontend/.env.local
-```
-
-Example:
-
-```
-NEXT_PUBLIC_SUPABASE_URL=your_project_url
-
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
-```
-
-Backend:
-
-```
-backend/.env
-```
-
-Example:
-
-```
-DATABASE_URL=
-SUPABASE_URL=
-SUPABASE_KEY=
-```
-
----
-
 # 📸 Screenshots
 
-## Homepage
+Add screenshots inside the **screenshots** folder.
 
-![Homepage](screenshots/homepage.png)
+Recommended screenshots:
 
----
+- Home Page
+- Login Page
+- Registration Page
+- Homestays Page
+- Booking Page
+- Dashboard
+- Profile Page
+- Favorites
+- Reviews
+- Admin Dashboard
+- Booking Analytics
 
-## Homestays Page
+Example:
 
-![Homestays](screenshots/homestays-page.png)
-
----
-
-## Booking Page
-
-![Booking](screenshots/booking_page.png)
-
----
-
-## Login Page
-
-![Login](screenshots/login-page.png)
-
----
-
-## Registration Page
-
-![Register](screenshots/register-page.png)
-
----
-
-## Dashboard
-
-![Dashboard](screenshots/dashboard.png)
-
----
-
-## Week 1 Progress
-
-![Week1](screenshots/week-1-progress.png)
+```
+screenshots/
+├── homepage.png
+├── login.png
+├── register.png
+├── homestays.png
+├── booking.png
+├── dashboard.png
+├── profile.png
+├── admin-dashboard.png
+```
 
 ---
 
@@ -299,54 +336,68 @@ SUPABASE_KEY=
 
 ## ✅ Week 1
 
-* Project Planning
-* Documentation
-* UI Design
-* Repository Setup
-
-## ✅ Week 2
-
-* Homepage
-* Navigation
-* Homestay Listing
-* Responsive UI
-
-## ✅ Week 3
-
-* Dashboard
-* Booking UI
-* Login UI
-* Registration UI
-* Theme Switching
-
-## ✅ Week 4
-
-* FastAPI Backend
-* REST APIs
-* CRUD Operations
-* Frontend–Backend Integration
-
-## ✅ Week 5
-
-* PostgreSQL (Supabase)
-* Database Integration
-* Authentication
-* Email Verification
-* Login & Logout
-* Booking Storage
-* Row Level Security (RLS)
+- Project Planning
+- Documentation
+- UI Design
+- Repository Setup
 
 ---
 
-# 🧠 Future Improvements
+## ✅ Week 2
 
-* AI Recommendation System
-* Smart Search
-* User Profiles
-* Booking History
-* Reviews & Ratings
-* Host Dashboard
-* Payment Gateway Integration
+- Homepage
+- Navigation
+- Responsive UI
+- Homestay Listings
+
+---
+
+## ✅ Week 3
+
+- Authentication
+- Booking Interface
+- Dashboard UI
+- Dark Mode
+- Responsive Components
+
+---
+
+## ✅ Week 4
+
+- Supabase Integration
+- PostgreSQL Database
+- Authentication
+- Booking Storage
+- Row Level Security (RLS)
+
+---
+
+## ✅ Week 5
+
+- User Profile Management
+- Favorites System
+- Booking Dashboard
+- Booking Cancellation
+- Booking Status Tracking
+- Reviews System
+- Admin Dashboard
+- Booking Analytics
+- Booking Trend Chart
+- Add Homestays
+- Admin Route Protection
+
+---
+
+# 🌱 Future Scope
+
+- AI-based Homestay Recommendation
+- Smart Search
+- Google Maps Integration
+- Payment Gateway
+- Email Notifications
+- Mobile Application
+- Host Dashboard
+- Chat Support
 
 ---
 
@@ -354,4 +405,12 @@ SUPABASE_KEY=
 
 **Dhruv Saun**
 
+B.Tech Computer Science Engineering
+
 Internship Project – 2026
+
+---
+
+# 📄 License
+
+This project was developed for educational purposes as part of a B.Tech Internship Project.
