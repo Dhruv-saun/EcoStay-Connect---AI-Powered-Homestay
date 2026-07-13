@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { supabase } from "@/lib/supabase";
 
 export default function Register() {
   const router = useRouter();
@@ -15,27 +14,29 @@ export default function Register() {
   const [role, setRole] = useState("Traveller");
 
   async function handleRegister() {
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          full_name: name,
-          role: role,
-        },
+    const response = await fetch("http://127.0.0.1:8000/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        full_name: name,
+        email,
+        password,
+      }),
     });
 
-    if (error) {
-      alert(error.message);
+    const data = await response.json();
+
+    if (!response.ok) {
+      alert(data.detail || data.message || "Registration failed");
       return;
     }
 
-    alert(
-      "Registration successful!\n\nPlease verify your email before logging in."
-    );
+    alert("Registration Successful!");
 
-    router.push("/login");}
+    router.push("/login");
+  }
 
   return (
     <>

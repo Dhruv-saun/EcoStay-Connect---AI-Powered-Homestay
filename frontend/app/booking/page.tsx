@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { supabase } from "@/lib/supabase";
+import { apiRequest } from "@/lib/api";
 
 function BookingContent() {
   const searchParams = useSearchParams();
@@ -30,17 +31,29 @@ function BookingContent() {
 
   useEffect(() => {
   async function loadPage() {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    const token = localStorage.getItem("token");
 
-    if (user) {
-      setForm((prev) => ({
-        ...prev,
-        name: user.user_metadata?.full_name || "",
-        email: user.email || "",
-      }));
+    if (!token) {
+      router.push("/login");
+      return;
     }
+
+    const response = await fetch(
+      "http://127.0.0.1:8000/profile/me",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const user = await response.json();
+
+    setForm((prev) => ({
+      ...prev,
+      name: user.full_name,
+      email: user.email,
+    }));
 
     if (homestayId) {
       const { data } = await supabase
@@ -59,12 +72,11 @@ function BookingContent() {
 }, [homestayId]);
 
   async function handleBooking() {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    const token = localStorage.getItem("token");
 
-    if (!user) {
+    if (!token) {
       alert("Please login first.");
+      router.push("/login");
       return;
     }
 
@@ -84,26 +96,24 @@ function BookingContent() {
 
     setBookingLoading(true);
 
-    const { error } = await supabase
-      .from("bookings")
-      .insert([
-        {
-          user_id: user.id,
-          name: form.name,
-          email: form.email,
+    const { response, data } = await apiRequest(
+      "/bookings/",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          homestay_id: homestayId,
           guests: Number(form.guests),
           checkin: form.checkin,
           checkout: form.checkout,
           requests: form.requests,
-          homestay_id: homestayId,
-        },
-      ]);
+        }),
+      }
+    );
 
     setBookingLoading(false);
 
-    if (error) {
-      console.log(error);
-      alert(error.message);
+    if (!response.ok) {
+      alert(data.detail || "Booking failed");
       return;
     }
 

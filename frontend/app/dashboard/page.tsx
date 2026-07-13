@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { supabase } from "@/lib/supabase";
+import { apiRequest } from "@/lib/api";
 
 type Booking = {
   id: number;
@@ -34,122 +34,68 @@ export default function Dashboard() {
 
   useEffect(() => {
     async function loadDashboard() {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+      const token = localStorage.getItem("token");
 
-      if (!user) {
+      if (!token) {
         router.push("/login");
         return;
       }
 
-      setUser(user);
+      const { response, data } = await apiRequest("/profile/me");
 
-      const { count } = await supabase
-        .from("favorites")
-        .select("*", {
-          count: "exact",
-          head: true,
-        })
-        .eq("user_id", user.id);
-
-      setFavoriteCount(count || 0);
-
-      const { data, error } = await supabase
-        .from("bookings")
-        .select(`
-          id,
-          status,
-          guests,
-          checkin,
-          checkout,
-          requests,
-          created_at,
-          homestays(
-            title,
-            location,
-            price,
-            image_url
-          )
-        `
-        )
-        .eq("user_id", user.id)
-        .order("created_at", { ascending: false });
-
-      if (error) {
-        console.log("SUPABASE ERROR:", error);
-        alert(JSON.stringify(error, null, 2));
-      } else {
-        console.log("BOOKINGS:", JSON.stringify(data, null, 2));
-        setBookings((data ?? []) as unknown as Booking[]);
+      if (!response.ok) {
+        localStorage.removeItem("token");
+        router.push("/login");
+        return;
       }
-            setLoading(false);
+
+      setUser(data);
+      const bookingsResult = await apiRequest("/bookings/");
+
+      if (bookingsResult.response.ok) {
+        setBookings(bookingsResult.data);
+      }
+
+      router.refresh();
+
+      setLoading(false);
     }
 
     loadDashboard();
   }, [router]);
 
   async function logout() {
-    await supabase.auth.signOut();
+    localStorage.removeItem("token");
     router.push("/login");
   }
 
-  async function loadBookings() {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+  async function cancelBooking(bookingId: number) {
+    const confirmDelete = confirm(
+      "Are you sure you want to cancel this booking?"
+    );
 
-    if (!user) return;
+    if (!confirmDelete) return;
 
-    const { data, error } = await supabase
-      .from("bookings")
-      .select(`
-        id,
-        status,
-        guests,
-        checkin,
-        checkout,
-        requests,
-        created_at,
-        homestays(
-          title,
-          location,
-          price,
-          image_url
-        )
-      `)
-      .eq("user_id", user.id)
-      .order("created_at", { ascending: false });
+    const { response, data } = await apiRequest(
+      `/bookings/${bookingId}/cancel`,
+      {
+        method: "PUT",
+      }
+    );
 
-    if (!error) {
-      setBookings((data as unknown as Booking[]) || []);
+    if (!response.ok) {
+      alert(data.detail || "Failed to cancel booking");
+      return;
+    }
+
+    alert("Booking cancelled successfully!");
+
+    const bookingsResult = await apiRequest("/bookings/");
+
+    if (bookingsResult.response.ok) {
+      setBookings(bookingsResult.data);
     }
   }
-
-  async function cancelBooking(bookingId: number) {
-  const confirmDelete = confirm(
-    "Are you sure you want to cancel this booking?"
-  );
-
-  if (!confirmDelete) return;
-
-  const { error } = await supabase
-    .from("bookings")
-    .update({
-      status: "Cancelled",
-    })
-    .eq("id", bookingId);
-
-  if (error) {
-    console.log("DELETE ERROR:", error);
-    alert(error.message);
-    return;
-  }
-
-  alert("Booking cancelled successfully!");
-
-  await loadBookings();
-}
 
   if (loading) {
     return (
@@ -190,7 +136,7 @@ export default function Dashboard() {
           <div>
 
             <h2 className="text-3xl font-bold">
-              {user?.user_metadata?.full_name || "Traveller"}
+              {user?.full_name || "Traveller"}
             </h2>
 
             <p className="text-gray-500">
@@ -284,7 +230,7 @@ export default function Dashboard() {
                 </p>
 
                 <p>
-                  Check-out: {latestBooking.checkout}
+                  Check-out: {new Date(latestBooking.checkout).toLocaleDateString()}
                 </p>
 
                 <p>
@@ -303,34 +249,24 @@ export default function Dashboard() {
                   {latestBooking.status}
                 </div>
 
-                <div
-                  className={`mt-5 inline-block px-4 py-2 rounded-full font-bold text-white ${
-                    latestBooking.status === "Confirmed"
-                      ? "bg-green-600"
-                      : latestBooking.status === "Cancelled"
-                      ? "bg-red-600"
-                      : "bg-yellow-500"
-                  }`}
-                >
-                  {latestBooking.status}
-                </div>
-
-                <button
-                  onClick={() => cancelBooking(latestBooking.id)}
-                  className="
-                    mt-6
-                    bg-red-600
-                    hover:bg-red-700
-                    text-white
-                    px-6
-                    py-3
-                    rounded-xl
-                    font-semibold
-                    transition
-                  "
-                >
-                  Cancel Booking
-                </button>
+                {latestBooking.status !== "Cancelled" && (
+                  <button
+                    onClick={() => cancelBooking(latestBooking.id)}
+                    className="
+                      mt-6
+                      bg-red-600
+                      hover:bg-red-700
+                      text-white
+                      px-6
+                      py-3
+                      rounded-xl
+                      font-semibold
+                      transition
+                    "
+                  >
+                    Cancel Booking
+                  </button>
+                )}
 
               </div>
 
@@ -345,7 +281,7 @@ export default function Dashboard() {
         <div className="bg-white dark:bg-neutral-900 rounded-2xl shadow-lg border border-gray-300 dark:border-neutral-700 p-8">
 
           <h2 className="text-3xl font-bold mb-6">
-            Recent Bookings
+            My Bookings
           </h2>
 
           {bookings.length === 0 ? (
@@ -384,7 +320,8 @@ export default function Dashboard() {
                     </p>
 
                     <p>
-                      {booking.checkin} → {booking.checkout}
+                      {new Date(booking.checkin).toLocaleDateString()} →
+                      {new Date(booking.checkout).toLocaleDateString()}
                     </p>
 
                     <div
@@ -398,6 +335,25 @@ export default function Dashboard() {
                     >
                       {booking.status}
                     </div>
+
+                    {booking.status !== "Cancelled" && (
+                    <button
+                      onClick={() => cancelBooking(booking.id)}
+                      className="
+                        block
+                        mt-4
+                        bg-red-600
+                        hover:bg-red-700
+                        text-white
+                        px-5
+                        py-2
+                        rounded-lg
+                        transition
+                      "
+                    >
+                      Cancel Booking
+                    </button>
+                  )}
 
                   </div>
 

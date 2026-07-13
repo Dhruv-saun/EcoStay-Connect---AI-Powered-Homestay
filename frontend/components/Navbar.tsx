@@ -2,18 +2,19 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
 
 export default function Navbar() {
   const [dark, setDark] = useState(false);
+
   const [user, setUser] = useState<any>(null);
 
-const [profile, setProfile] = useState({
-  full_name: "",
-  avatar_url: "",
-});
+  const [profile, setProfile] = useState({
+    full_name: "",
+    avatar_url: "",
+  });
 
   useEffect(() => {
+    // Theme
     const saved = localStorage.getItem("theme");
 
     if (saved === "dark") {
@@ -21,63 +22,41 @@ const [profile, setProfile] = useState({
       setDark(true);
     }
 
-    // Check current session
+    // Load logged in user from backend
     async function getUser() {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+      const token = localStorage.getItem("token");
 
-  setUser(user);
+      if (!token) return;
 
-  if (user) {
-    const { data } = await supabase
-      .from("profiles")
-      .select("full_name, avatar_url")
-      .eq("id", user.id)
-      .single();
+      try {
+        const response = await fetch(
+          "http://127.0.0.1:8000/profile/me",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-    if (data) {
-      setProfile({
-        full_name: data.full_name || "",
-        avatar_url: data.avatar_url || "",
-      });
+        if (!response.ok) return;
+
+        const data = await response.json();
+
+        setUser(data);
+
+        setProfile({
+          full_name: data.full_name || "",
+          avatar_url: data.avatar_url || "",
+        });
+      } catch (err) {
+        console.log(err);
+      }
     }
-  }
-}
 
     getUser();
-
-    // Listen for login/logout
-    const {
-  data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      setUser(session?.user ?? null);
-
-      if (session?.user) {
-        const { data } = await supabase
-          .from("profiles")
-          .select("full_name, avatar_url")
-          .eq("id", session.user.id)
-          .single();
-
-        if (data) {
-          setProfile({
-            full_name: data.full_name || "",
-            avatar_url: data.avatar_url || "",
-          });
-        }
-      } else {
-        setProfile({
-          full_name: "",
-          avatar_url: "",
-        });
-      }
-    });
-
-    return () => subscription.unsubscribe();
   }, []);
 
-  const toggleTheme = () => {
+  function toggleTheme() {
     const html = document.documentElement;
 
     if (dark) {
@@ -89,10 +68,10 @@ const [profile, setProfile] = useState({
     }
 
     setDark(!dark);
-  };
+  }
 
-  async function handleLogout() {
-    await supabase.auth.signOut();
+  function handleLogout() {
+    localStorage.removeItem("token");
     alert("Logged out successfully!");
     window.location.href = "/";
   }
@@ -106,7 +85,7 @@ const [profile, setProfile] = useState({
         -translate-x-1/2
         w-[95%]
         max-w-[1400px]
-        z-[999]
+        z-[99999]
         backdrop-blur-xl
         bg-white/60
         dark:bg-black/40
@@ -143,23 +122,25 @@ const [profile, setProfile] = useState({
         "
       >
         <Link href="/">Home</Link>
+
         <Link href="/homestays">Destinations</Link>
+
         <Link href="/booking">Booking</Link>
+
+        <Link
+          href="/recommendations"
+          onClick={() => console.log("Recommendations clicked")}
+        >
+          AI Recommendations
+        </Link>
 
         {user && (
           <>
-            {user && (
-              <Link href="/favorites">
-                Favorites
-              </Link>
-            )}
-            <Link href="/dashboard">
-              Dashboard
-            </Link>
+            <Link href="/favorites">Favorites</Link>
 
-            <Link href="/profile">
-              Profile
-            </Link>
+            <Link href="/dashboard">Dashboard</Link>
+
+            <Link href="/profile">Profile</Link>
           </>
         )}
       </div>
@@ -212,61 +193,51 @@ const [profile, setProfile] = useState({
         ) : (
           <>
             <div className="flex items-center gap-3">
+              <Link href="/profile">
+                {profile.avatar_url ? (
+                  <img
+                    src={profile.avatar_url}
+                    alt="Avatar"
+                    className="
+                      w-12
+                      h-12
+                      rounded-full
+                      object-cover
+                      border-2
+                      border-green-600
+                    "
+                  />
+                ) : (
+                  <div
+                    className="
+                      w-12
+                      h-12
+                      rounded-full
+                      bg-green-700
+                      text-white
+                      flex
+                      items-center
+                      justify-center
+                      font-bold
+                    "
+                  >
+                    {(profile.full_name || "U")
+                      .charAt(0)
+                      .toUpperCase()}
+                  </div>
+                )}
+              </Link>
 
-  <Link href="/profile">
+              <div>
+                <p className="font-semibold">
+                  {profile.full_name || "Traveller"}
+                </p>
 
-    {profile.avatar_url ? (
-
-      <img
-        src={profile.avatar_url}
-        alt="Avatar"
-        className="
-          w-12
-          h-12
-          rounded-full
-          object-cover
-          border-2
-          border-green-600
-        "
-      />
-
-    ) : (
-
-      <div
-        className="
-          w-12
-          h-12
-          rounded-full
-          bg-green-700
-          text-white
-          flex
-          items-center
-          justify-center
-          font-bold
-        "
-      >
-        {(profile.full_name || "U")
-          .charAt(0)
-          .toUpperCase()}
-      </div>
-
-    )}
-
-  </Link>
-
-  <div>
-
-    <p className="font-semibold">
-      {profile.full_name || "Traveller"}
-    </p>
-
-    <p className="text-xs text-gray-500">
-      {user.email}
-    </p>
-
-  </div>
-
-</div>
+                <p className="text-xs text-gray-500">
+                  {user.email}
+                </p>
+              </div>
+            </div>
 
             <button
               onClick={handleLogout}

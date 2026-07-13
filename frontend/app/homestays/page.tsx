@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
+import { apiRequest } from "@/lib/api";
 import { supabase } from "@/lib/supabase";
 
 export default function Homestays() {
@@ -29,21 +30,12 @@ export default function Homestays() {
       }
 
       // Load logged in user's favourites
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+     const { response, data } = await apiRequest("/favorites/");
 
-      if (user) {
-        const { data: favData, error: favError } = await supabase
-          .from("favorites")
-          .select("homestay_id")
-          .eq("user_id", user.id);
-
-        if (!favError && favData) {
-          setFavorites(
-            favData.map((item: any) => item.homestay_id)
-          );
-        }
+      if (response.ok) {
+        setFavorites(
+          data.map((item: any) => item.homestays.id)
+        );
       }
 
       setLoading(false);
@@ -53,26 +45,24 @@ export default function Homestays() {
   }, []);
 
   async function toggleFavorite(homestayId: number) {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    const token = localStorage.getItem("token");
 
-    if (!user) {
+    if (!token) {
       alert("Please login first.");
       return;
     }
 
-    // Remove favourite
+    // Remove favorite
     if (favorites.includes(homestayId)) {
-      const { error } = await supabase
-        .from("favorites")
-        .delete()
-        .eq("user_id", user.id)
-        .eq("homestay_id", homestayId);
+      const { response, data } = await apiRequest(
+        `/favorites/${homestayId}`,
+        {
+          method: "DELETE",
+        }
+      );
 
-      if (error) {
-        console.log(error);
-        alert(error.message);
+      if (!response.ok) {
+        alert(data.detail || "Unable to remove favorite.");
         return;
       }
 
@@ -81,18 +71,20 @@ export default function Homestays() {
       );
     }
 
-    // Add favourite
+    // Add favorite
     else {
-      const { error } = await supabase
-        .from("favorites")
-        .insert({
-          user_id: user.id,
-          homestay_id: homestayId,
-        });
+      const { response, data } = await apiRequest(
+        "/favorites/",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            homestay_id: homestayId,
+          }),
+        }
+      );
 
-      if (error) {
-        console.log(error);
-        alert(error.message);
+      if (!response.ok) {
+        alert(data.detail || "Unable to add favorite.");
         return;
       }
 
@@ -288,11 +280,31 @@ export default function Homestays() {
                   ₹{stay.price}/night
                 </p>
 
+                <div className="flex gap-3 mt-6">
+
+                <Link
+                  href={`/homestays/${stay.id}`}
+                  className="
+                    flex-1
+                    text-center
+                    bg-blue-600
+                    hover:bg-blue-700
+                    text-white
+                    px-6
+                    py-3
+                    rounded-xl
+                    transition
+                    font-semibold
+                  "
+                >
+                  View Details
+                </Link>
+
                 <Link
                   href={`/booking?homestay=${stay.id}`}
                   className="
-                    inline-block
-                    mt-6
+                    flex-1
+                    text-center
                     bg-green-700
                     hover:bg-green-800
                     text-white
@@ -305,6 +317,8 @@ export default function Homestays() {
                 >
                   Book Stay
                 </Link>
+
+              </div>
 
               </div>
             </div>

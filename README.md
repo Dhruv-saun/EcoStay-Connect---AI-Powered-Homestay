@@ -388,16 +388,72 @@ screenshots/
 
 ---
 
+# Week 6 Progress
+
+## Features Implemented
+
+### Admin Dashboard
+- Dashboard Analytics
+- Statistics Cards
+- Booking Status Pie Chart
+- Overall Platform Bar Chart
+
+### User Management
+- View Users
+- Search Users
+- Delete Users
+
+### Homestay Management
+- Add Homestays
+- Edit Homestays
+- Delete Homestays
+- Search Homestays
+- Image Upload using Supabase Storage
+
+### Booking Management
+- Search Bookings
+- Filter by Status
+- Update Booking Status
+- Delete Booking
+
+### Review Management
+- Search Reviews
+- Filter Reviews
+- Delete Reviews
+
+### Database
+- Updated PostgreSQL Schema
+- Foreign Keys
+- Constraints
+- Storage Policies
+
+### Technologies Used
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- FastAPI
+- PostgreSQL
+- Supabase
+- Recharts
+
+## Deliverables
+
+- Screenshots PDF
+- Database Schema
+- Week 6 Report
+- Updated README
+- .env.example
+
+---
+
 # 🌱 Future Scope
 
-- AI-based Homestay Recommendation
-- Smart Search
 - Google Maps Integration
 - Payment Gateway
 - Email Notifications
 - Mobile Application
 - Host Dashboard
-- Chat Support
 
 ---
 

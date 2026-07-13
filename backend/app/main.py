@@ -10,13 +10,32 @@ from app.core.exceptions import (
 )
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
 from app.routes.homestays import router
-
+from app.routes.auth import router as auth_router
+from app.routes.profile import router as profile_router
+from app.routes.bookings import router as bookings_router
+from app.core.limiter import limiter
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+from app.routes.recommendation import router as recommendation_router
+from app.routes.favorites import router as favorites_router
+from app.routes.review import router as review_router
+from app.routes.admin import router as admin_router
+from app.routes.admin_users import router as admin_users_router
+from app.routes.admin_homestays import router as admin_homestays_router
+from app.routes.admin_bookings import router as admin_bookings_router
+from app.routes.admin_reviews import router as admin_reviews_router
+from app.routes.admin_analytics import router as admin_analytics_router
 
 app = FastAPI(
     title="EcoStay Connect API",
     version="1.0.0"
+)
+
+app.state.limiter = limiter
+app.add_exception_handler(
+    RateLimitExceeded,
+    _rate_limit_exceeded_handler,
 )
 
 app.add_exception_handler(
@@ -45,7 +64,18 @@ app.add_middleware(
 )
 
 app.include_router(router)
-
+app.include_router(auth_router) 
+app.include_router(profile_router)
+app.include_router(bookings_router)
+app.include_router(recommendation_router)
+app.include_router(favorites_router)
+app.include_router(review_router)
+app.include_router(admin_router)
+app.include_router(admin_users_router)
+app.include_router(admin_homestays_router)
+app.include_router(admin_bookings_router)
+app.include_router(admin_reviews_router)
+app.include_router(admin_analytics_router)
 
 @app.get("/")
 def home():

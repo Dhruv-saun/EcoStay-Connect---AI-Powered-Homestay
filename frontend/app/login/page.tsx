@@ -4,7 +4,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { supabase } from "@/lib/supabase";
+import { apiRequest } from "@/lib/api";
+import { saveToken } from "@/lib/auth";
+
 
 export default function Login() {
   const router = useRouter();
@@ -13,46 +15,20 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   async function handleLogin() {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
+    const { response, data } = await apiRequest("/auth/login", {
+      method: "POST",
+      body: JSON.stringify({
+        email,
+        password,
+      }),
     });
 
-    if (error) {
-      alert(error.message);
+    if (!response.ok) {
+      alert(data.detail || data.message || "Login failed");
       return;
     }
 
-    const user = data.user;
-
-    if (user) {
-      // Check if profile already exists
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("id")
-        .eq("id", user.id)
-        .maybeSingle();
-
-      // Create profile on first login
-      if (!profile) {
-        const { error: profileError } = await supabase
-          .from("profiles")
-          .insert([
-            {
-              id: user.id,
-              full_name: user.user_metadata?.full_name || "",
-              avatar_url: "",
-              phone: "",
-              city: "",
-            },
-          ]);
-
-        if (profileError) {
-          console.log("PROFILE INSERT ERROR:", profileError);
-          alert(JSON.stringify(profileError, null, 2));
-        }
-      }
-    }
+    saveToken(data.access_token);
 
     alert("Login Successful!");
 
