@@ -26,6 +26,7 @@ from app.routes.admin_homestays import router as admin_homestays_router
 from app.routes.admin_bookings import router as admin_bookings_router
 from app.routes.admin_reviews import router as admin_reviews_router
 from app.routes.admin_analytics import router as admin_analytics_router
+from app.routes.ai import router as ai_router
 
 app = FastAPI(
     title="EcoStay Connect API",
@@ -76,6 +77,7 @@ app.include_router(admin_homestays_router)
 app.include_router(admin_bookings_router)
 app.include_router(admin_reviews_router)
 app.include_router(admin_analytics_router)
+app.include_router(ai_router)
 
 @app.get("/")
 def home():

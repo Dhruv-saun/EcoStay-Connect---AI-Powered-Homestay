@@ -95,6 +95,16 @@ def login_user(email: str, password: str):
         )
 
     user = result.data[0]
+    
+    profile = (
+        supabase.table("profiles")
+        .select("is_admin")
+        .eq("id", user["id"])
+        .single()
+        .execute()
+    )
+
+    is_admin = profile.data["is_admin"]
 
     if not verify_password(password, user["password_hash"]):
         raise HTTPException(
@@ -112,4 +122,5 @@ def login_user(email: str, password: str):
     return {
         "access_token": access_token,
         "token_type": "bearer",
+        "is_admin": is_admin,
     }

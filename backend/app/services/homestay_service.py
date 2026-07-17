@@ -1,25 +1,13 @@
-homestays = [
-    {
-        "id": 1,
-        "title": "Mountain View Cottage",
-        "location": "Mussoorie",
-        "price": 2500
-    },
-    {
-        "id": 2,
-        "title": "Forest Eco Retreat",
-        "location": "Rishikesh",
-        "price": 3200
-    },
-    {
-        "id": 3,
-        "title": "Lake Side Homestay",
-        "location": "Nainital",
-        "price": 2800
-    }
-]
+from app.core.supabase import supabase
 
 
 def get_all():
+    response = (
+        supabase
+        .table("homestays")
+        .select("*")
+        .order("id")
+        .execute()
+    )
 
-    return homestays
+    return response.data

@@ -32,7 +32,11 @@ export default function Login() {
 
     alert("Login Successful!");
 
-    router.push("/dashboard");
+    if (data.is_admin) {
+      router.push("/admin");
+    } else {
+      router.push("/dashboard");
+    }
   }
 
   return (

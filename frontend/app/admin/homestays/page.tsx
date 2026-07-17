@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { apiRequest } from "@/lib/api";
+import { uploadHomestayImage } from "@/lib/storage";
+import Image from "next/image";
 
 export default function AdminHomestays() {
   const [homestays, setHomestays] = useState<any[]>([]);
@@ -17,7 +19,9 @@ export default function AdminHomestays() {
   const [editingId, setEditingId] = useState<number | null>(null);
 
   const [search, setSearch] = useState("");
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
+ 
 
   useEffect(() => {
     loadHomestays();
@@ -34,6 +38,35 @@ export default function AdminHomestays() {
 
     setLoading(false);
   }
+
+  async function uploadImage(file: File) {
+    try {
+      setUploading(true);
+
+      const fileExt = file.name.split(".").pop();
+      const fileName = `${Date.now()}-${Math.random()
+        .toString(36)
+        .substring(2)}.${fileExt}`;
+
+      const { error } = await supabase.storage
+        .from("homestays")
+        .upload(fileName, file);
+
+      if (error) {
+        alert(error.message);
+        return;
+      }
+
+      const { data } = supabase.storage
+        .from("homestays")
+        .getPublicUrl(fileName);
+
+      setImageUrl(data.publicUrl);
+    } finally {
+      setUploading(false);
+    }
+  }
+
 
   async function addHomestay() {
     if (!title || !location || !price || !ecoScore) {
@@ -60,31 +93,6 @@ export default function AdminHomestays() {
     }
   }
 
-  async function uploadImage(file: File) {
-    try {
-      setUploading(true);
-
-      const fileExt = file.name.split(".").pop();
-      const fileName = `${Date.now()}.${fileExt}`;
-
-      const { error } = await supabase.storage
-        .from("homestays")
-        .upload(fileName, file);
-
-      if (error) {
-        alert(error.message);
-        return;
-      }
-
-      const { data } = supabase.storage
-        .from("homestays")
-        .getPublicUrl(fileName);
-
-      setImageUrl(data.publicUrl);
-    } finally {
-      setUploading(false);
-    }
-  }
 
   async function updateHomestay() {
     if (editingId === null) return;
@@ -148,6 +156,7 @@ export default function AdminHomestays() {
     setPrice("");
     setEcoScore("");
     setImageUrl("");
+    setSelectedImage(null);
   }
 
   const filteredHomestays = useMemo(() => {
@@ -240,10 +249,12 @@ export default function AdminHomestays() {
             )}
 
             {imageUrl && (
-              <img
+              <Image
                 src={imageUrl}
                 alt="Preview"
-                className="w-56 rounded-xl border shadow"
+                width={200}
+                height={150}
+                className="rounded-xl object-cover"
               />
             )}
 
@@ -275,7 +286,7 @@ export default function AdminHomestays() {
               onClick={addHomestay}
               className="bg-green-700 hover:bg-green-800 text-white px-8 py-3 rounded-xl font-bold"
             >
-              {uploading ? "Uploading..." : "Add Homestay"}
+              {uploading ? "Uploading Image..." : "Add Homestay"}
             </button>
           )}
 
@@ -322,7 +333,7 @@ export default function AdminHomestays() {
             {filteredHomestays.length === 0 ? (
               <tr>
                 <td
-                  colSpan={6}
+                  colSpan={7}
                   className="text-center p-8 text-gray-500"
                 >
                   No homestays found.
@@ -338,9 +349,11 @@ export default function AdminHomestays() {
 
                   <td className="p-4">
                     {stay.image_url ? (
-                      <img
+                      <Image
                         src={stay.image_url}
                         alt={stay.title}
+                        width={64}
+                        height={64}
                         className="w-24 h-16 object-cover rounded-lg border"
                       />
                     ) : (
